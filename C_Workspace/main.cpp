@@ -1,12 +1,23 @@
 #include <iostream>
-#include <unordered_map>
-#include<vector>
 using namespace std;
 
 #define ln '\n'
 typedef long long ll;
 
 
+void solve()
+{
+	ll n, m, x, y, a, b;
+	cin >> n >> m >> x >> y >> a >> b;	
+
+	ll theifMoves = (n - x) + (m - y);
+	ll policeMoves = max((n-a), (m-b));
+
+	if(policeMoves >= theifMoves)
+		cout << "YES" << ln;
+	else 
+		cout << "NO" << ln;
+}
 
 int main() {
 
@@ -15,7 +26,10 @@ int main() {
 		freopen("outputf.in", "w", stdout);
 	#endif
     
-    cout << max(1, 4);
+    ll t;
+    cin >> t;
+    while(t--)	solve();
+
     return 0;
 }
 
