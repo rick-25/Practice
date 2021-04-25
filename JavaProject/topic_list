@@ -1,0 +1,59 @@
+:Array
+	*Kadens algorithm
+	*N/2, N/3 greatest number
+	*Merge Overlaping intervals
+	*Rotate matrix
+	*Buy/Sell stock {1,2,3,4}
+
+
+
+:String
+	*Pattern matching algorighms(KMP + Rabin Karp)
+	*Using StringBuilder class
+	*String compression algorithms
+
+
+
+:Linkedlist
+	*Inplementation of LinkedList
+	*Detect and delete cycle (Floyd algo)
+	*Reverse a linked list
+
+
+
+:Stack	
+	*Implementation of stack
+	*Balance parenthesis
+	*Trapping rain water
+	*Implement min stack
+
+
+
+:Queue
+	*Implementaion of Queue/Deueue
+	*Sliding window maximum
+	*Implement BFS
+	*Implement level order in Binary Tree
+
+
+:PriorityQueue or Heap
+	*Implementaion of Heap
+	*Connect n ropes with min cost
+	*Median of running stream
+	*LRU and LFU cache
+
+
+:Set && Map 
+	*Internal working of HashMap/Set
+	*4-sum
+	*Longest substring without repeat
+
+
+
+:Binary Tree
+	*Implementation
+	*Print top level, left level, right level, zig-zag traversal of Binary tree.
+	*Invert a binary tree
+	*Lowest common ancestor
+
+	

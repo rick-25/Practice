@@ -1,0 +1,16 @@
+
+Q: BIOS is used?
+A: By operating system
+
+Q: To access the services of operating system, the interface is provided by
+A: Assembly instructions
+
+Q: What is the mean of the Booting in the operating system?
+A: Restarting computer
+
+Q: When were MS windows operating systems proposed?
+A: 1985
+
+Q: Which of the following is not an operating system?
+A: Oracle
+
