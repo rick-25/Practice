@@ -8,7 +8,6 @@ typedef long long ll;
 
 int arr[long(1e5)];
 
-
 void solve()	
 {
 	int n, k;
@@ -17,15 +16,21 @@ void solve()
 	for(int i=0; i<n; i++)
 		cin >> arr[i];
 
-	cout << 1 << ln;
+	int mid = n / 2;
+	
+	if(n % 2 != 0)
+		mid++;
+
+	
 }
 
-int main() {
+int main() 
+{
 
-	#ifndef ONLINE_JUDGE
-		freopen("inputf.in", "r", stdin);
-		freopen("outputf.in", "w", stdout);
-	#endif
+#ifndef ONLINE_JUDGE
+	freopen("inputf.in", "r", stdin);
+	freopen("outputf.in", "w", stdout);
+#endif
     
     ll t;
     cin >> t;
