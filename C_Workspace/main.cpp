@@ -1,22 +1,23 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 #define ln '\n'
 typedef long long ll;
 
+int arr[long(1e5)];
 
-void solve()
+
+void solve()	
 {
-	ll n, m, x, y, a, b;
-	cin >> n >> m >> x >> y >> a >> b;	
+	int n, k;
+	cin >> n >> k;
 
-	ll theifMoves = (n - x) + (m - y);
-	ll policeMoves = max((n-a), (m-b));
+	for(int i=0; i<n; i++)
+		cin >> arr[i];
 
-	if(policeMoves >= theifMoves)
-		cout << "YES" << ln;
-	else 
-		cout << "NO" << ln;
+	cout << 1 << ln;
 }
 
 int main() {
