@@ -1,60 +1,42 @@
 #include <iostream>
 #include <vector>
-#include <unordered_map>
+#include <algorithm>
 using namespace std;
 
 #define ln '\n';
 typedef long long ll;
 
  
-
-int MAX(int a, int b) { return (a > b) ? a : b; }
-
-
 class Solution {
 public:
-    int leastBricks(vector<vector<int>>& wall) {
-
-        unordered_map<int, int> sumCounts;
-        
-        int max = 1;
-
-        for(int i=0; i<wall.size(); i++) 
-        {
-        	max = giveMaxSum(wall, i, max, sumCounts);
-        }
-        
-        return wall.size() - max;
+    int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
+        return furthestBuilding(heights, bricks, ladders, 0);
     }
+private:
+    int furthestBuilding(vector<int>& heights, int bricks, int ladders, int i) {
+        if(i+1 == heights.size()) return i;
 
-    int giveMaxSum(vector<vector<int>>& wall, int r, int max, unordered_map<int, int>& umap) 
-    {
-    	int sum = 0;
-    	for(int i=0; i<wall[r].size()-1; i++) 
-    	{
-    		sum += wall[r][i];
+        int diff = heights[i+1] - heights[i];
 
-			umap[sum]++;
+        if(diff > 0)
+        {
+            int ans = -1;
+            if(bricks >= diff)
+                ans = max(ans, furthestBuilding(heights, bricks-diff, ladders, i+1));
+            if(ladders > 0)
+                ans = max(ans, furthestBuilding(heights, bricks, ladders-1, i+1));
 
-    		max = MAX(max, umap[sum]);
-    	}	
-    	return max;
+            return max(ans, i);
+        }
+        return furthestBuilding(heights, bricks, ladders, i+1);
     }
 };
 
 
 int main() {    
-   	vector<vector<int>> v = {
-   		{1,2,2,1},
-        {3,1,2},
-        {1,3,2},
-        {2,4},
-        {3,1,2},
-        {1,3,1,1}
-   	};
-
-   	Solution obj;
-   	cout << obj.leastBricks(v) << ln;
+   	//TODO : test here
+    string temp = 1 + "ahelo" + 53;
+    cout << temp << ln;
     return 0;
 }
 
