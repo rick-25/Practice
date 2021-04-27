@@ -34,8 +34,12 @@ private:
 
 
 int main() {    
+#ifndef ONLINE_JUDGE
+    freopen("inputf.in", "r", stdin);
+    freopen("outputf.in", "w", stdout);
+#endif
    	//TODO : test here
-    string temp = 1 + "ahelo" + 53;
+    string temp = to_string(3) + "ahelo";
     cout << temp << ln;
     return 0;
 }

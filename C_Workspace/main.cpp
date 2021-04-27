@@ -9,30 +9,20 @@ typedef long long ll;
 
 void solve()	
 {
-	ll n, k;
-	cin >> n >> k;
-    vector<ll> arr = vector<ll>(n);
-	for(int i=0; i<n; i++)
-		cin >> arr[i];
+	int n, m;
+    cin >> n >> m;
 
-
-    ll l1 = arr[n/2] - k/2;
-    ll l2 = arr[n/2 - 1] - k/2;
-    
-
-	ll ans = 1e18; 
-
-    for(ll  l : {l1 ,l2}) 
+    vector<pair<int, int>> arr(m);
+    for(int i=0; i<m; i++)
     {
-        ll r = l + k - 1;
-        ll dist = 0;
-        for(ll i=0; i<n; i++) 
-            dist += max(abs(arr[i] - l), abs(arr[i] - r));
-        ans = min(ans, dist);
+        cin >> arr[i].first;
+        cin >> arr[i].second;
     }
+
+    //solve here
+
     
-    
-	cout << ans << ln;
+
 }
 
 int main() 
