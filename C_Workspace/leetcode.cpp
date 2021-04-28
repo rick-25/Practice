@@ -7,54 +7,32 @@ using namespace std;
 typedef long long ll;
 
  
-
-int MAX(int a, int b) { return (a > b) ? a : b; }
-
-
 class Solution {
 public:
-    int leastBricks(vector<vector<int>>& wall) {
-
-        unordered_map<int, int> sumCounts;
-        
-        int max = 1;
-
-        for(int i=0; i<wall.size(); i++) 
-        {
-        	max = giveMaxSum(wall, i, max, sumCounts);
-        }
-        
-        return wall.size() - max;
+    int uniquePathsWithObstacles(vector<vector<int>>& grid) {
+        return solve(grid, 0, 0);
     }
+    
+    int solve(vector<vector<int>>& grid, int x, int y) {
+        if(!isValid(grid, x, y))    return 0;
+        
+        if(x == grid.size()-1 && y == grid[0].size()-1)
+            return 1;
 
-    int giveMaxSum(vector<vector<int>>& wall, int r, int max, unordered_map<int, int>& umap) 
-    {
-    	int sum = 0;
-    	for(int i=0; i<wall[r].size()-1; i++) 
-    	{
-    		sum += wall[r][i];
-
-			umap[sum]++;
-
-    		max = MAX(max, umap[sum]);
-    	}	
-    	return max;
+        return solve(grid, x, y+1) + solve(grid, x+1, y); 
+    }
+    
+    bool isValid(vector<vector<int>>& grid, int x, int y) {
+        if(x >= grid.size() || x < 0 || y >= grid[0].size() || y < 0)
+            return false;
+        return (grid[x][y] == 0);
     }
 };
 
 
-int main() {    
-   	vector<vector<int>> v = {
-   		{1,2,2,1},
-        {3,1,2},
-        {1,3,2},
-        {2,4},
-        {3,1,2},
-        {1,3,1,1}
-   	};
+int main() { 
+    //TODO : test here
 
-   	Solution obj;
-   	cout << obj.leastBricks(v) << ln;
     return 0;
 }
 
