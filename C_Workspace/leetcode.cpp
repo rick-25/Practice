@@ -6,32 +6,31 @@ using namespace std;
 #define ln '\n';
 typedef long long ll;
 
- 
-class Solution {
+ class Solution {
 public:
-    int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
-        return furthestBuilding(heights, bricks, ladders, 0);
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        return solve(obstacleGrid, 0, 0);
     }
-private:
-    int furthestBuilding(vector<int>& heights, int bricks, int ladders, int i) {
-        if(i+1 == heights.size()) return i;
+    
+    int solve(vector<vector<int>>& obstacleGrid, int x, int y) {
+        if(!isValid(obstacleGrid, x, y))    return 0;
+        
+        if(x == obstacleGrid.size()-1 && y == obstacleGrid[0].size()-1)
+            return 1;
 
-        int diff = heights[i+1] - heights[i];
-
-        if(diff > 0)
-        {
-            int ans = -1;
-            if(bricks >= diff)
-                ans = max(ans, furthestBuilding(heights, bricks-diff, ladders, i+1));
-            if(ladders > 0)
-                ans = max(ans, furthestBuilding(heights, bricks, ladders-1, i+1));
-
-            return max(ans, i);
-        }
-        return furthestBuilding(heights, bricks, ladders, i+1);
+        return solve(obstacleGrid, x, y+1) + solve(obstacleGrid, x+1, y); 
+    }
+    
+    bool isValid(vector<vector<int>>& obstacleGrid, int x, int y) {
+        if(x >= obstacleGrid.size() || x < 0 || y >= obstacleGrid[0].size() || y < 0)
+            return false;
+        return (obstacleGrid[x][y] == 0);
     }
 };
 
+
+int main() { 
+    //TODO : test here
 
 int main() {    
 #ifndef ONLINE_JUDGE
