@@ -1,31 +1,30 @@
 #include <iostream>
 #include <vector>
-#include <unordered_map>
+#include <algorithm>
 using namespace std;
 
 #define ln '\n';
 typedef long long ll;
 
- 
-class Solution {
+ class Solution {
 public:
-    int uniquePathsWithObstacles(vector<vector<int>>& grid) {
-        return solve(grid, 0, 0);
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        return solve(obstacleGrid, 0, 0);
     }
     
-    int solve(vector<vector<int>>& grid, int x, int y) {
-        if(!isValid(grid, x, y))    return 0;
+    int solve(vector<vector<int>>& obstacleGrid, int x, int y) {
+        if(!isValid(obstacleGrid, x, y))    return 0;
         
-        if(x == grid.size()-1 && y == grid[0].size()-1)
+        if(x == obstacleGrid.size()-1 && y == obstacleGrid[0].size()-1)
             return 1;
 
-        return solve(grid, x, y+1) + solve(grid, x+1, y); 
+        return solve(obstacleGrid, x, y+1) + solve(obstacleGrid, x+1, y); 
     }
     
-    bool isValid(vector<vector<int>>& grid, int x, int y) {
-        if(x >= grid.size() || x < 0 || y >= grid[0].size() || y < 0)
+    bool isValid(vector<vector<int>>& obstacleGrid, int x, int y) {
+        if(x >= obstacleGrid.size() || x < 0 || y >= obstacleGrid[0].size() || y < 0)
             return false;
-        return (grid[x][y] == 0);
+        return (obstacleGrid[x][y] == 0);
     }
 };
 
@@ -33,6 +32,14 @@ public:
 int main() { 
     //TODO : test here
 
+int main() {    
+#ifndef ONLINE_JUDGE
+    freopen("inputf.in", "r", stdin);
+    freopen("outputf.in", "w", stdout);
+#endif
+   	//TODO : test here
+    string temp = to_string(3) + "ahelo";
+    cout << temp << ln;
     return 0;
 }
 
