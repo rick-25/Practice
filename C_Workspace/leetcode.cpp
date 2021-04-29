@@ -4,35 +4,40 @@
 #include <unordered_map>
 #include <unordered_set>
 
-using namespace std;
-
 #define ln '\n'
 #define ll long long
- 
+
+using namespace std;
 
 
-int main() { 
+
+class Solution
+{
+public:
+	static vector<int> spiralOrder(const vector<vector<int>> &A)
+ 	{
+		// TODO : CODE HERE
+		
+	}
+};
+
+
+
+int main()
+{
 #ifndef ONLINE_JUDGE
-    freopen("inputf.in", "r", stdin);
-    freopen("outputf.in", "w", stdout);
+	freopen("inputf.in", "r", stdin);
+	freopen("outputf.in", "w", stdout);
 #endif
-    
-   	ll n, x;
-   	cin >> n >> x;
-   	
-   	ll hoursSum = 0;
-   	while(n--) 
-   	{
-   	    ll temp;
-   	    cin >> temp;
-   	    hoursSum += temp;
-   	}
+	vector<vector<int>> grid = {
+		{1, 2, 3}, 
+		{5, 6, 7}, 
+		{8, 9, 10}
+	};
 
-   	if(hoursSum <= 24 - x)
-   		cout << "YES" << ln;
-   	else 
-   		cout << "NO" << ln;
-    
-    return 0;
+	vector<int> ans = Solution::spiralOrder(grid);
+	for(int i=0; i<ans.size(); i++)
+		cout << ans[i] <<  ' ';
+	cout << ln;
+	return 0;
 }
-
