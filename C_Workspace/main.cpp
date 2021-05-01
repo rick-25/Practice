@@ -2,17 +2,24 @@
 #include <vector>
 #include <algorithm>
 #include <climits>
-#include <set>
+#include <cmath>
+#include <unordered_set>
 #include <unordered_map>
+
 using namespace std;
 
 #define ln '\n'
-typedef long long ll;
+#define ll long long
+
+ll arr[long(1e6)];
 
 void solve() 
 {
-    
-} 
+	ll n;
+	cin >> n;
+	
+}
+
 
 int main()  
 {
@@ -24,7 +31,8 @@ int main()
     
     ll t;
     cin >> t;
-    while(t--)	solve();
+    while(t--)	
     solve();
+
     return 0;
 }
