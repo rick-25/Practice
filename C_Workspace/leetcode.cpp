@@ -4,77 +4,83 @@
 #include <unordered_map>
 #include <unordered_set>
 
-
 using namespace std;
-
 
 #define ln '\n'
 #define ll long long
 
-
-struct TreeNode 
+struct TreeNode
 {
 	int val;
-	TreeNode* left;
-	TreeNode* right;
+	TreeNode *left;
+	TreeNode *right;
 	TreeNode(int i) : val(i), left(nullptr), right(nullptr)
-	{}
+	{
+	}
 
 	//Helper functinons
 	void preorder()
 	{
 		TreeNode::preorder(this);
 	}
-	static void preorder(TreeNode* root) 
+	static void preorder(TreeNode *root)
 	{
-		if(root == nullptr) return;
+		if (root == nullptr)
+			return;
 		cout << root->val << ' ';
 		preorder(root->left);
 		preorder(root->right);
 	}
 };
 
-class Solution {
+class Solution
+{
 public:
-    vector<TreeNode*> generateTrees(int n) {
-		// Make a list of all posible left subtree and right subtree and by using do a O(N^2) operation 
+	vector<TreeNode *> generateTrees(int n)
+	{
+		// Make a list of all posible left subtree and right subtree and by using do a O(N^2) operation
 		// to get all posible arrangements of both subtrees
-		vector<TreeNode*> ans;
+		vector<int> nodeMap;
+		for(int i=1; i<=n; i++)	nodeMap.push_back(i);
+
+		vector<TreeNode *> ans = posibleSubTree(nodeMap, 0, nodeMap.size());
+		
 		return ans;
 	}
 
-	vector<TreeNode*> posibleSubTree(vector<int> &arr, int s, int e) {
-		
-		vector<TreeNode*> ans;
-		
-		for(int i=s; i<e; i++) {
-			
-			vector<TreeNode*> left = posibleSubTree(arr, s, i);
-			vector<TreeNode*> right = posibleSubTree(arr, i+1, e);
+private:
 
-			int leftSize = (left.size() > 0) ? left.size() : 1;
-			int rightSize = (right.size() > 0) ? right.size() : 1;
+	vector<TreeNode *> posibleSubTree(vector<int> &arr, int s, int e)
+	{
 
-			for(int p=0; p<leftSize; p++) 
+		vector<TreeNode *> ans;
+
+		for (int i = s; i < e; i++)
+		{
+
+			vector<TreeNode *> left = posibleSubTree(arr, s, i);
+			vector<TreeNode *> right = posibleSubTree(arr, i + 1, e);
+
+			int leftSize = max((int)left.size(), 1);
+			int rightSize = max((int)right.size(), 1);
+
+			for (int p = 0; p < leftSize; p++)
 			{
-				for(int j=0; j<rightSize; j++)
+				for (int j = 0; j < rightSize; j++)
 				{
-					TreeNode* root = new TreeNode(arr[i]);
+					TreeNode *root = new TreeNode(arr[i]);
 					root->left = (left.size() > 0) ? left[p] : nullptr;
-					root->right = (right.size() > 0) ? right[i] : nullptr;
-					ans.push_back(root);	
+					root->right = (right.size() > 0) ? right[j] : nullptr;
+					ans.push_back(root);
 				}
 			}
-
-
 		}
-
 
 		return ans;
 	}
-};  
+};
 
-int main() 
+int main()
 {
 #ifndef ONLINE_JUDGE
 	freopen("inputf.in", "r", stdin);
@@ -83,16 +89,13 @@ int main()
 
 	Solution obj;
 
-	vector<int> nodeMap = {1, 2, 3};
+	vector<TreeNode *> ans = obj.generateTrees(3);
 
-	vector<TreeNode*> ans = obj.posibleSubTree(nodeMap, 0, nodeMap.size());
-
-	for(TreeNode* root : ans) 
+	for(int i=0; i<ans.size(); i++) 
 	{
-		root->preorder();
+		ans[i]->preorder();
 		cout << ln;
 	}
 
-	
 	return 0;
 }
