@@ -11,17 +11,21 @@ using namespace std;
 #define ln '\n'
 #define ll long long
 
-ll arr[long(1e6)];
+
 
 void solve() 
 {
-	ll n;
+	ll n, ans = 0;
 	cin >> n;
-	
+
+	for(int i=1; pow(5, i) <= n; i++)
+		ans += n / pow(5, i);
+
+	cout << ans << ln;
 }
 
 
-int main()  
+int main()  	
 {
 
 #ifndef ONLINE_JUDGE	
@@ -31,8 +35,8 @@ int main()
     
     ll t;
     cin >> t;
-    while(t--)	
-    solve();
-
+    while(t--)
+	solve();
+	
     return 0;
 }

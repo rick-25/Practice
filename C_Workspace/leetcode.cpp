@@ -6,7 +6,6 @@
 
 #define ln '\n'
 #define ll long long
-#define for(s, n) for(int i=s; i<n; i++)
 using namespace std;
 
 struct TreeNode 
