@@ -49,11 +49,6 @@ public:
 		
 		for(int i=s; i<e; i++) {
 			
-			if(arr[i] < 0)
-				continue;
-
-			arr[i] *= -1;
-			
 			vector<TreeNode*> left = posibleSubTree(arr, s, i);
 			vector<TreeNode*> right = posibleSubTree(arr, i+1, e);
 
@@ -64,7 +59,7 @@ public:
 			{
 				for(int j=0; j<rightSize; j++)
 				{
-					TreeNode* root = new TreeNode(-arr[i]);
+					TreeNode* root = new TreeNode(arr[i]);
 					root->left = (left.size() > 0) ? left[p] : nullptr;
 					root->right = (right.size() > 0) ? right[i] : nullptr;
 					ans.push_back(root);	
@@ -72,7 +67,6 @@ public:
 			}
 
 
-			arr[i] *= -1;
 		}
 
 
@@ -98,5 +92,7 @@ int main()
 		root->preorder();
 		cout << ln;
 	}
+
+	
 	return 0;
 }
