@@ -87,15 +87,7 @@ int main()
 	freopen("outputf.in", "w", stdout);
 #endif
 
-	Solution obj;
-
-	vector<TreeNode *> ans = obj.generateTrees(3);
-
-	for(int i=0; i<ans.size(); i++) 
-	{
-		ans[i]->preorder();
-		cout << ln;
-	}
+	cout << sizeof(ll) << ln;
 
 	return 0;
 }
