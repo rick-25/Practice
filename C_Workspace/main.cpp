@@ -23,48 +23,59 @@ using namespace std;
 // AB+D*EF-^
 // ABC*DEF^/G*-H*+
 
+int pre(char c) 
+{
+	if(c == '+' || c == '-')
+		return 1;
+	if(c == '*' || c == '/')
+		return 2;
+	if(c == '^')
+		return 3;
+	return -1;
+}
+
 void solve()
 {
 	ll n;
 	string s;
 	cin >> n >> s;
 
+	
+	stack<char> stk;
 	string ans;
-	stack<pair<char, int>> stk;
-	unordered_set<char> charSet = {'+', '-', '*', '/', '^'};
 
-	ll level = 0;
-	for (int i = 0; i < s.size(); i++)
+	for(int i=0; i<s.size(); i++)
 	{
-		if (charSet.find(s[i]) != charSet.end())
-		{
-			stk.push({s[i], level});
-		}
-		else if (s[i] == '(')
-		{
-			level++;
-		}
-		else if (s[i] == ')')
-		{
-			while (!stk.empty() && stk.top().second == level)
-			{
-				ans.push_back(stk.top().first);
-				stk.pop();
-			}
-
-			level--;
-		}
-		else
-		{
+		if(isalpha(s[i])) {
 			ans.push_back(s[i]);
 		}
-	}
+		else if(s[i] == '(') {
+			stk.push(s[i]);
+		}
+		else if(s[i] == ')') {
+			while(!stk.empty()) {
+				char cur = stk.top();
+				stk.pop();
 
-	while (stk.size() > 0)
+				if(cur == '(')	break;
+
+				ans.push_back(cur);
+			}
+		}
+		else {
+			while(!stk.empty() && stk.top() != '(' &&  pre(s[i]) <= pre(stk.top())) {
+				ans.push_back(stk.top());	
+				stk.pop();
+			}
+			stk.push(s[i]);
+		}
+	}
+	while(!stk.empty())
 	{
-		ans.push_back(stk.top().first);
+		ans.push_back(stk.top());
 		stk.pop();
 	}
+
 
 	cout << ans << ln;
 }
