@@ -10,75 +10,48 @@
 using namespace std;
 
 #define ln '\n'
-#define ll long long
+#define ll long long	
 
-// 2
-// 15
-// ((A+B)*D)^(E-F)
-// 19
-// A+(B*C-(D/E^F)*G)*H
+ll ans;
 
-// Example Output
 
-// AB+D*EF-^
-// ABC*DEF^/G*-H*+
-
-int pre(char c) 
+ll help(string s, int root) 
 {
-	if(c == '+' || c == '-')
-		return 1;
-	if(c == '*' || c == '/')
-		return 2;
-	if(c == '^')
-		return 3;
+	for(int i=root+1; i<s.size(); /*i++*/)	
+	{
+		if(s[i] == '>') 
+		{
+			ans = max(ans, (ll)(i - root)+1);
+			return i;
+		}
+		else 
+		{
+			ll nextIndex = help(s, i);
+			if(nextIndex < 0 || nextIndex >= s.size()) 
+				return nextIndex;
+
+			i = nextIndex+1;
+		}
+	}
 	return -1;
 }
 
+
+
 void solve()
 {
-	ll n;
 	string s;
-	cin >> n >> s;
+	cin >> s;
 
-	
-	stack<char> stk;
-	string ans;
-
-	for(int i=0; i<s.size(); i++)
-	{
-		if(isalpha(s[i])) {
-			ans.push_back(s[i]);
-		}
-		else if(s[i] == '(') {
-			stk.push(s[i]);
-		}
-		else if(s[i] == ')') {
-			while(!stk.empty()) {
-				char cur = stk.top();
-				stk.pop();
-
-				if(cur == '(')	break;
-
-				ans.push_back(cur);
-			}
-		}
-		else {
-			while(!stk.empty() && stk.top() != '(' &&  pre(s[i]) <= pre(stk.top())) {
-				ans.push_back(stk.top());	
-				stk.pop();
-			}
-			stk.push(s[i]);
-		}
-	}
-	while(!stk.empty())
-	{
-		ans.push_back(stk.top());
-		stk.pop();
+	if(s[0] == '>') {
+		cout << 0 << ln;
+		return;
 	}
 
-
+	ans = 0;
+	help(s, 0);
 	cout << ans << ln;
-}
+}	
 
 int main()
 {
