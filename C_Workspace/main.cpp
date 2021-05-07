@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <queue>
 #include <algorithm>
 #include <climits>
 #include <cmath>
@@ -10,48 +11,28 @@
 using namespace std;
 
 #define ln '\n'
-#define ll long long	
-
-ll ans;
-
-
-ll help(string s, int root) 
-{
-	for(int i=root+1; i<s.size(); /*i++*/)	
-	{
-		if(s[i] == '>') 
-		{
-			ans = max(ans, (ll)(i - root)+1);
-			return i;
-		}
-		else 
-		{
-			ll nextIndex = help(s, i);
-			if(nextIndex < 0 || nextIndex >= s.size()) 
-				return nextIndex;
-
-			i = nextIndex+1;
-		}
-	}
-	return -1;
-}
+#define ll long long
 
 
 
 void solve()
 {
-	string s;
-	cin >> s;
+	ll n, k;
+	cin >> n >> k;
 
-	if(s[0] == '>') {
-		cout << 0 << ln;
-		return;
+	vector<int> arr(n);
+	for(int i=0; i<n; i++)	cin >> arr[i];
+
+	queue<pair<int, int>> indexQueue;
+	unordered_set<int> currentFlavours;
+
+	for(int i=0; i<n; i++) 
+	{
+		
 	}
 
-	ans = 0;
-	help(s, 0);
-	cout << ans << ln;
-}	
+
+}
 
 int main()
 {
