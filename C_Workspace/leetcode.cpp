@@ -1,6 +1,11 @@
 #include <iostream>
 #include <vector>
+#include <stack>
+#include <queue>
+#include <cmath>
 #include <algorithm>
+#include <numeric>
+#include <set>  
 #include <unordered_map>
 #include <unordered_set>
 
@@ -9,75 +14,36 @@ using namespace std;
 #define ln '\n'
 #define ll long long
 
-struct TreeNode
-{
-	int val;
-	TreeNode *left;
-	TreeNode *right;
-	TreeNode(int i) : val(i), left(nullptr), right(nullptr)
-	{
-	}
+struct Solution {
+    bool isPossible(vector<int>& v) {
 
-	//Helper functinons
-	void preorder()
-	{
-		TreeNode::preorder(this);
-	}
-	static void preorder(TreeNode *root)
-	{
-		if (root == nullptr)
-			return;
-		cout << root->val << ' ';
-		preorder(root->left);
-		preorder(root->right);
-	}
-};
+    	ll sum = accumulate(v.begin(), v.end(), 0);
 
-class Solution
-{
-public:
-	vector<TreeNode *> generateTrees(int n)
-	{
-		// Make a list of all posible left subtree and right subtree and by using do a O(N^2) operation
-		// to get all posible arrangements of both subtrees
-		vector<int> nodeMap;
-		for(int i=1; i<=n; i++)	nodeMap.push_back(i);
+    	make_heap(v.begin(), v.end());
 
-		vector<TreeNode *> ans = posibleSubTree(nodeMap, 0, nodeMap.size());
-		
-		return ans;
-	}
+    	return solve(v, sum);
+    }
 
-private:
+    bool solve(vector<int> &v, ll sum) {
 
-	vector<TreeNode *> posibleSubTree(vector<int> &arr, int s, int e)
-	{
+    	int num = v.front(); 	if(num == 1)	return true;
 
-		vector<TreeNode *> ans;
+    	pop_heap(v.begin(), v.end());
+    	v.pop_back();
 
-		for (int i = s; i < e; i++)
-		{
+    	sum -= num;
 
-			vector<TreeNode *> left = posibleSubTree(arr, s, i);
-			vector<TreeNode *> right = posibleSubTree(arr, i + 1, e);
+    	if(num <= sum || sum < 1)	return false;
 
-			int leftSize = max((int)left.size(), 1);
-			int rightSize = max((int)right.size(), 1);
+    	num %= sum;
+    	sum += num;
+    
 
-			for (int p = 0; p < leftSize; p++)
-			{
-				for (int j = 0; j < rightSize; j++)
-				{
-					TreeNode *root = new TreeNode(arr[i]);
-					root->left = (left.size() > 0) ? left[p] : nullptr;
-					root->right = (right.size() > 0) ? right[j] : nullptr;
-					ans.push_back(root);
-				}
-			}
-		}
+    	v.push_back(num);
+    	push_heap(v.begin(), v.end());
 
-		return ans;
-	}
+    	return solve(v, sum);
+    } 
 };
 
 int main()
@@ -87,7 +53,9 @@ int main()
 	freopen("outputf.in", "w", stdout);
 #endif
 
-	cout << sizeof(ll) << ln;
+	Solution obj;
 
+	vector<int> v = {1, 2};
+	cout << obj.isPossible(v);
 	return 0;
 }
