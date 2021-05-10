@@ -14,36 +14,11 @@ using namespace std;
 #define ln '\n'
 #define ll long long
 
-struct Solution {
-    bool isPossible(vector<int>& v) {
-
-    	ll sum = accumulate(v.begin(), v.end(), 0);
-
-    	make_heap(v.begin(), v.end());
-
-    	return solve(v, sum);
+class Solution {
+public:
+    int countPrimes(int n) {
+		//Sieve of Eratosthenes
     }
-
-    bool solve(vector<int> &v, ll sum) {
-
-    	int num = v.front(); 	if(num == 1)	return true;
-
-    	pop_heap(v.begin(), v.end());
-    	v.pop_back();
-
-    	sum -= num;
-
-    	if(num <= sum || sum < 1)	return false;
-
-    	num %= sum;
-    	sum += num;
-    
-
-    	v.push_back(num);
-    	push_heap(v.begin(), v.end());
-
-    	return solve(v, sum);
-    } 
 };
 
 int main()
@@ -53,9 +28,6 @@ int main()
 	freopen("outputf.in", "w", stdout);
 #endif
 
-	Solution obj;
-
-	vector<int> v = {1, 2};
-	cout << obj.isPossible(v);
+	cout << "Workign!" << ln;
 	return 0;
 }
