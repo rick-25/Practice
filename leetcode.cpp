@@ -34,10 +34,11 @@ public:
 			return prev;
 
 		prev = solve(root->left, prev);
-
+		
 		if(prev != nullptr) 
 			prev -> right = root;
-
+	
+		root->left = nullptr;
 		return solve(root->right, root);
 	}
 };
@@ -52,12 +53,20 @@ void print(TreeNode* root) {
 int main()
 {
 	TreeNode* temp = new TreeNode(1);
+	
 	temp -> left = new TreeNode(2);
 	temp -> right = new TreeNode(3);
-
+	
+	temp -> left -> left = new TreeNode(4);
+	temp -> left -> right = new TreeNode(5);
+	temp -> right -> left = new TreeNode(6);
+	temp -> right -> right = new TreeNode(7);
+	
+	TreeNode* start = temp -> left -> left;
+	
 	Solution().flatten(temp);
 
-	print(temp -> left);
+	print(start);
 
 	return 0;
 }
