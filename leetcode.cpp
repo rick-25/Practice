@@ -26,17 +26,38 @@ struct TreeNode {
 class Solution {
 public:
     void flatten(TreeNode* root) {
-        
+		solve(root, nullptr); 
     }
 
 	TreeNode* solve(TreeNode *root, TreeNode* prev) {
-		if(root == nullptr)	return prev;
+		if(root == nullptr)	
+			return prev;
+
+		prev = solve(root->left, prev);
+
+		if(prev != nullptr) 
+			prev -> right = root;
+
+		return solve(root->right, root);
 	}
 };
+
+void print(TreeNode* root) {
+	while(root != nullptr) {
+		cout << root -> val << ' ';
+		root = root -> right;
+	}
+}
 
 int main()
 {
 	TreeNode* temp = new TreeNode(1);
-	cout << temp->val;
+	temp -> left = new TreeNode(2);
+	temp -> right = new TreeNode(3);
+
+	Solution().flatten(temp);
+
+	print(temp -> left);
+
 	return 0;
 }
