@@ -3,10 +3,12 @@
 #include <stack>
 #include <queue>
 #include <cmath>
+#include <climits>
 #include <algorithm>
-#include <numeric> 
 #include <unordered_map>
 #include <unordered_set>
+
+#include "ds.h"
 
 using namespace std;
 
@@ -14,59 +16,42 @@ using namespace std;
 #define ll long long
 
 
-struct TreeNode {
-	int val;
-	TreeNode *left;
-	TreeNode *right;
-	TreeNode(int x) : val(x), left(nullptr), right(nullptr)
-	{}
-};
-
 
 class Solution {
 public:
-    void flatten(TreeNode* root) {
-		solve(root, nullptr); 
-    }
-
-	TreeNode* solve(TreeNode *root, TreeNode* prev) {
-		if(root == nullptr)	
-			return prev;
-
-		prev = solve(root->left, prev);
+    int longestStrChain(vector<string>& words) {
 		
-		if(prev != nullptr) 
-			prev -> right = root;
-	
-		root->left = nullptr;
-		return solve(root->right, root);
+		sort(words.begin(), words.end(), [](const std::string &word1, const std::string &word2) {
+            return word1.size() < word2.size();
+        });
+		
+		int ans = 0;
+		unordered_map<string, int> dp;
+		for(string &s : words) {
+			int len = 1;
+			
+			for(int i=0; i<s.size(); i++) {
+				string temp = s.substr(0, i) + s.substr(i+1, s.size());
+				if(dp.find(temp) != dp.end()) {
+					len = max(len, dp[temp] + 1);
+				}
+			}
+
+			dp[s] = len;
+
+			ans = max(ans, dp[s]);
+		}
+		return ans;
 	}
 };
 
-void print(TreeNode* root) {
-	while(root != nullptr) {
-		cout << root -> val << ' ';
-		root = root -> right;
-	}
-}
+
 
 int main()
 {
-	TreeNode* temp = new TreeNode(1);
-	
-	temp -> left = new TreeNode(2);
-	temp -> right = new TreeNode(3);
-	
-	temp -> left -> left = new TreeNode(4);
-	temp -> left -> right = new TreeNode(5);
-	temp -> right -> left = new TreeNode(6);
-	temp -> right -> right = new TreeNode(7);
-	
-	TreeNode* start = temp -> left -> left;
-	
-	Solution().flatten(temp);
+	vector<string> test = {"abcd","abc","bcd","abd","ab", "ad", "b"};
+	Solution obj;
 
-	print(start);
-
+	cout << obj.longestStrChain(test) << ln;
 	return 0;
 }
