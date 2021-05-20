@@ -15,43 +15,56 @@ using namespace std;
 #define ln '\n'
 #define ll long long
 
-
-
 class Solution {
 public:
-    int longestStrChain(vector<string>& words) {
+    vector<vector<int>> levelOrder(TreeNode* root) {
+		vector<vector<int>> ans;
+		queue<TreeNode*> bfs;
 		
-		sort(words.begin(), words.end(), [](const std::string &word1, const std::string &word2) {
-            return word1.size() < word2.size();
-        });
+		if(root == nullptr)	return ans;
 		
-		int ans = 0;
-		unordered_map<string, int> dp;
-		for(string &s : words) {
-			int len = 1;
+		bfs.push(root);
+
+		int len = 1; 
+		while(len) 
+		{
+			vector<int> temp;
 			
-			for(int i=0; i<s.size(); i++) {
-				string temp = s.substr(0, i) + s.substr(i+1, s.size());
-				if(dp.find(temp) != dp.end()) {
-					len = max(len, dp[temp] + 1);
-				}
+			for(int i=0; i<len; i++) 
+			{
+				TreeNode * node = bfs.front();
+				
+				temp.push_back(node -> val);
+
+				if(node -> left != nullptr)
+					bfs.push(node -> left);
+				if(node -> right != nullptr)
+					bfs.push(node -> right);
+
+				bfs.pop();
 			}
-
-			dp[s] = len;
-
-			ans = max(ans, dp[s]);
+			ans.push_back(temp);
+			len = bfs.size();
 		}
-		return ans;
-	}
-};
 
+		return ans;
+    }
+};
 
 
 int main()
 {
-	vector<string> test = {"abcd","abc","bcd","abd","ab", "ad", "b"};
-	Solution obj;
+	TreeNode * root = new TreeNode(1);
+	root -> left = new TreeNode(2);
+	root -> right = new TreeNode(3);
+	
+	vector<vector<int>> table =	Solution().levelOrder(root);
 
-	cout << obj.longestStrChain(test) << ln;
+	for(auto i : table) {
+		for(auto t : i) {
+			cout << t << ' ';
+		}	cout << ln;
+	}
+
 	return 0;
 }
