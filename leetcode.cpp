@@ -15,56 +15,67 @@ using namespace std;
 #define ln '\n'
 #define ll long long
 
-class Solution {
+class Solution 
+{
 public:
-    vector<vector<int>> levelOrder(TreeNode* root) {
-		vector<vector<int>> ans;
-		queue<TreeNode*> bfs;
+    vector<vector<string>> findDuplicate(vector<string>& paths) 
+	{
+		unordered_map<string, vector<string>> table;
+		for(auto i : paths) 
+			help(i, table);	
 		
-		if(root == nullptr)	return ans;
 		
-		bfs.push(root);
-
-		int len = 1; 
-		while(len) 
-		{
-			vector<int> temp;
-			
-			for(int i=0; i<len; i++) 
-			{
-				TreeNode * node = bfs.front();
-				
-				temp.push_back(node -> val);
-
-				if(node -> left != nullptr)
-					bfs.push(node -> left);
-				if(node -> right != nullptr)
-					bfs.push(node -> right);
-
-				bfs.pop();
-			}
-			ans.push_back(temp);
-			len = bfs.size();
-		}
-
+		vector<vector<string>> ans;
+		for(auto i : table)	
+			if(i.second.size() > 1)
+				ans.push_back(i.second);
+		
 		return ans;
     }
-};
 
+	void help(string s, unordered_map<string, vector<string>> &table) 
+	{
+		string dir = "";
+		
+		string name, content;
+		bool inContent = false;
+		for(int i=0; i<s.size(); i++) 
+		{
+			if(dir.size() == 0 && s[i] == ' ')	dir = s.substr(0, i);
+			
+			else if(dir.size() && s[i] != ' ')
+			{
+				if(s[i] == '(') {
+					inContent = true;
+				}
+				else if(s[i] == ')') {
+					inContent = false;
+					table[content].push_back(dir+"/"+name);
+					name = "";
+					content = "";
+				}
+				else if(inContent) {
+					content.push_back(s[i]);
+				}
+				else {
+					name.push_back(s[i]);
+				}
+			}
+			
+		}
+	}
+};
 
 int main()
 {
-	TreeNode * root = new TreeNode(1);
-	root -> left = new TreeNode(2);
-	root -> right = new TreeNode(3);
+	vector<string> paths = {"root/a 1.txt(one) 2.txt(two)", "root/b 3.txt(one) 4.txt(four)"};
 	
-	vector<vector<int>> table =	Solution().levelOrder(root);
+	vector<vector<string>> ans = Solution().findDuplicate(paths);
 
-	for(auto i : table) {
-		for(auto t : i) {
-			cout << t << ' ';
-		}	cout << ln;
+	for(auto v : ans) {
+		for(auto s : v)
+			cout << s << ' ';
+		cout << ln;
 	}
-
 	return 0;
 }
