@@ -15,67 +15,74 @@ using namespace std;
 #define ln '\n'
 #define ll long long
 
-class Solution 
-{
+class Solution {
+	vector<vector<string>> ans;
 public:
-    vector<vector<string>> findDuplicate(vector<string>& paths) 
+    vector<vector<string>> solveNQueens(int n) 
 	{
-		unordered_map<string, vector<string>> table;
-		for(auto i : paths) 
-			help(i, table);	
-		
-		
-		vector<vector<string>> ans;
-		for(auto i : table)	
-			if(i.second.size() > 1)
-				ans.push_back(i.second);
-		
-		return ans;
+		vector<pair<int, int>> queens;
+		solve(n, queens, 0);
+		return  ans;
     }
 
-	void help(string s, unordered_map<string, vector<string>> &table) 
+	void solve(int n, vector<pair<int, int>> &queens, int row)
 	{
-		string dir = "";
-		
-		string name, content;
-		bool inContent = false;
-		for(int i=0; i<s.size(); i++) 
+		if(row == n) // Base case
 		{
-			if(dir.size() == 0 && s[i] == ' ')	dir = s.substr(0, i);
-			
-			else if(dir.size() && s[i] != ' ')
+			vector<string> data;
+			for(auto i : queens) 
 			{
-				if(s[i] == '(') {
-					inContent = true;
+				int col = i.second;
+				string temp;
+				for(int i=0; i<n; i++) 
+				{
+					if(i == col)
+						temp.push_back('Q');
+					else 
+						temp.push_back('.');
 				}
-				else if(s[i] == ')') {
-					inContent = false;
-					table[content].push_back(dir+"/"+name);
-					name = "";
-					content = "";
-				}
-				else if(inContent) {
-					content.push_back(s[i]);
-				}
-				else {
-					name.push_back(s[i]);
-				}
+				data.push_back(temp);
 			}
 			
+			ans.push_back(data);
+			return;
 		}
+		for(int i=0; i<n; i++) 
+		{
+			if(valid(queens, row, i)) 
+			{
+				queens.push_back({row, i});
+				solve(n, queens, row+1);
+				queens.pop_back();
+			}
+		}
+	}
+
+	bool valid(vector<pair<int, int>> &queens, int r, int c) 
+	{
+		for(pair<int, int> coordinate : queens) {
+			if(coordinate.second == c)	return false;
+
+			int diff = r - coordinate.first;
+
+			if(c == coordinate.second + diff || c == coordinate.second - diff)	
+				return false;
+		}
+		return true;
 	}
 };
 
 int main()
-{
-	vector<string> paths = {"root/a 1.txt(one) 2.txt(two)", "root/b 3.txt(one) 4.txt(four)"};
-	
-	vector<vector<string>> ans = Solution().findDuplicate(paths);
+{	//Test the solution code here
 
-	for(auto v : ans) {
-		for(auto s : v)
-			cout << s << ' ';
-		cout << ln;
+	int queens = 9;
+	vector<vector<string>> ans = Solution().solveNQueens(queens);
+
+	for(auto i : ans) {
+		for(auto j : i) {
+			cout << j << ln;
+		}	cout << ln << ln << ln;
 	}
 	return 0;
 }
+
