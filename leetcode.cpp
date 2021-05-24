@@ -5,6 +5,8 @@
 #include <cmath>
 #include <climits>
 #include <algorithm>
+#include <map>
+#include <set>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -15,74 +17,50 @@ using namespace std;
 #define ln '\n'
 #define ll long long
 
-class Solution {
-	vector<vector<string>> ans;
+
+class Solution 
+{
 public:
-    vector<vector<string>> solveNQueens(int n) 
+    string shortestSuperstring(vector<string>& words) 
 	{
-		vector<pair<int, int>> queens;
-		solve(n, queens, 0);
-		return  ans;
+		unordered_map<string, int> okay[words.size()]; 
+		for(int i=0; i<words.size(); i++) 
+			okay[i] = solve(words, i);
+		
     }
 
-	void solve(int n, vector<pair<int, int>> &queens, int row)
+	void solve(vector<string>& words, unordered_map<string, int> okay[], int root, unordered_set<int> used)
 	{
-		if(row == n) // Base case
-		{
-			vector<string> data;
-			for(auto i : queens) 
-			{
-				int col = i.second;
-				string temp;
-				for(int i=0; i<n; i++) 
-				{
-					if(i == col)
-						temp.push_back('Q');
-					else 
-						temp.push_back('.');
-				}
-				data.push_back(temp);
-			}
-			
-			ans.push_back(data);
-			return;
-		}
-		for(int i=0; i<n; i++) 
-		{
-			if(valid(queens, row, i)) 
-			{
-				queens.push_back({row, i});
-				solve(n, queens, row+1);
-				queens.pop_back();
-			}
-		}
+		
 	}
 
-	bool valid(vector<pair<int, int>> &queens, int r, int c) 
+	unordered_map<string, int> solve(vector<string>& words, int i)
 	{
-		for(pair<int, int> coordinate : queens) {
-			if(coordinate.second == c)	return false;
-
-			int diff = r - coordinate.first;
-
-			if(c == coordinate.second + diff || c == coordinate.second - diff)	
-				return false;
+		unordered_map<string, int> data;
+		for(int j=0; j<words.size(); j++) {
+			if(j == i)	continue;
+			data[words[j]] = common(words[i], words[j]);
 		}
-		return true;
+		return data;
+	}
+
+	int common(string first, string second) 
+	{
+		int ans = 0;
+		for(int i = first.size()-1, j = 0; i >= 0, j < second.size(); i--, j++) 
+		{
+			if(first[i] == second[j]) 
+				ans++;
+			else 
+				break;
+		}
+		return ans;
 	}
 };
 
+
 int main()
 {	//Test the solution code here
-
-	int queens = 9;
-	vector<vector<string>> ans = Solution().solveNQueens(queens);
-
-	for(auto i : ans) {
-		for(auto j : i) {
-			cout << j << ln;
-		}	cout << ln << ln << ln;
-	}
 	return 0;
 }
 
