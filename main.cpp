@@ -19,6 +19,7 @@ using namespace std;
 void solve()
 {
     //TODO : code here for each test case
+	cout <<  (int) 'a' << ln;
 }
 
 int main()

@@ -17,50 +17,29 @@ using namespace std;
 #define ln '\n'
 #define ll long long
 
-
-class Solution 
-{
+class Solution {
 public:
-    string shortestSuperstring(vector<string>& words) 
+    bool checkPossibility(vector<int>& nums) 
 	{
-		unordered_map<string, int> okay[words.size()]; 
-		for(int i=0; i<words.size(); i++) 
-			okay[i] = solve(words, i);
-		
-    }
-
-	void solve(vector<string>& words, unordered_map<string, int> okay[], int root, unordered_set<int> used)
-	{
-		
-	}
-
-	unordered_map<string, int> solve(vector<string>& words, int i)
-	{
-		unordered_map<string, int> data;
-		for(int j=0; j<words.size(); j++) {
-			if(j == i)	continue;
-			data[words[j]] = common(words[i], words[j]);
-		}
-		return data;
-	}
-
-	int common(string first, string second) 
-	{
-		int ans = 0;
-		for(int i = first.size()-1, j = 0; i >= 0, j < second.size(); i--, j++) 
+		int changesCount = 0;
+		for(int i=0; i<nums.size() - 1; i++) 
 		{
-			if(first[i] == second[j]) 
-				ans++;
-			else 
-				break;
+			if(nums[i+1] < nums[i])
+			{
+				if((i-1 < 0 || nums[i-1] <= nums[i+1]) || (i+2 >= nums.size() || nums[i+2] >= nums[i]))
+				changesCount++;
+				else 
+					return false;
+			}
 		}
-		return ans;
-	}
+		return (changesCount < 2);
+    }
 };
-
 
 int main()
 {	//Test the solution code here
+	vector<int> test = {4,2,1};
+	cout << Solution().checkPossibility(test) << ln;
 	return 0;
 }
 
