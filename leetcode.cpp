@@ -17,29 +17,71 @@ using namespace std;
 #define ln '\n'
 #define ll long long
 
+void PrintStack(stack<int> s)
+{
+    // If stack is empty then return
+    if (s.empty())
+        return;
+     
+ 
+    int x = s.top();
+ 
+    // Pop the top element of the stack
+    s.pop();
+ 
+    // Recursively call the function PrintStack
+    PrintStack(s);
+ 
+    // Print the stack element starting
+    // from the bottom
+    cout << x << " ";
+ 
+    // Push the same element onto the stack
+    // to preserve the order
+    s.push(x);
+}
+
 class Solution {
-public:
-    bool checkPossibility(vector<int>& nums) 
+	int res(int a, int b, char op) 
 	{
-		int changesCount = 0;
-		for(int i=0; i<nums.size() - 1; i++) 
+		switch(op) 
 		{
-			if(nums[i+1] < nums[i])
-			{
-				if((i-1 < 0 || nums[i-1] <= nums[i+1]) || (i+2 >= nums.size() || nums[i+2] >= nums[i]))
-				changesCount++;
-				else 
-					return false;
+			case '+' : return a + b;
+			case '-' : return b - a;
+			case '*' : return a * b;
+			case '/' : return b / a;
+		}
+		return 0;
+	}	
+public:
+    int evalRPN(vector<string>& tokens) 
+	{
+
+		unordered_set<char> op = {'+', '-', '*', '/'};	        
+		stack<int> stk;
+
+		for(string cur : tokens)
+		{
+			if(op.find(cur[0]) == op.end() || cur.size() > 1) {
+				stk.push(stoi(cur));
+			}
+			else {
+				int a = stk.top();
+				stk.pop();
+				int b = stk.top();
+				stk.pop();
+				stk.push(res(a, b, cur[0]));
 			}
 		}
-		return (changesCount < 2);
+		
+		return stk.top();
     }
 };
 
 int main()
 {	//Test the solution code here
-	vector<int> test = {4,2,1};
-	cout << Solution().checkPossibility(test) << ln;
+	vector<string> test = {"10","6","9","3","+","-11","*","/","*","17","+","5","+"};
+	cout << Solution().evalRPN(test) << ln;
 	return 0;
 }
 
