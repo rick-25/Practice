@@ -5,6 +5,7 @@
 #include <cmath>
 #include <climits>
 #include <algorithm>
+#include <iterator>
 #include <map>
 #include <set>
 #include <unordered_map>
@@ -17,71 +18,53 @@ using namespace std;
 #define ln '\n'
 #define ll long long
 
-void PrintStack(stack<int> s)
-{
-    // If stack is empty then return
-    if (s.empty())
-        return;
-     
- 
-    int x = s.top();
- 
-    // Pop the top element of the stack
-    s.pop();
- 
-    // Recursively call the function PrintStack
-    PrintStack(s);
- 
-    // Print the stack element starting
-    // from the bottom
-    cout << x << " ";
- 
-    // Push the same element onto the stack
-    // to preserve the order
-    s.push(x);
-}
-
 class Solution {
-	int res(int a, int b, char op) 
-	{
-		switch(op) 
-		{
-			case '+' : return a + b;
-			case '-' : return b - a;
-			case '*' : return a * b;
-			case '/' : return b / a;
-		}
-		return 0;
-	}	
+	void fill(vector<int>& nums, multiset<int>& s, int i) {
+		int x = i;
+		for(int y : s) 
+				nums[x++] = y; 
+	}
+
 public:
-    int evalRPN(vector<string>& tokens) 
+    void nextPermutation(vector<int>& nums) 
 	{
-
-		unordered_set<char> op = {'+', '-', '*', '/'};	        
-		stack<int> stk;
-
-		for(string cur : tokens)
+		multiset<int> s;
+		for(int i=nums.size()-1; i>-1; i--)
 		{
-			if(op.find(cur[0]) == op.end() || cur.size() > 1) {
-				stk.push(stoi(cur));
+			s.insert(nums[i]);
+			multiset<int>::iterator it = ++s.find(nums[i]);
+
+			if(it == s.end()) 
+			{
+				if(i == 0) 
+					sort(nums.begin(), nums.end());
+				continue;
 			}
-			else {
-				int a = stk.top();
-				stk.pop();
-				int b = stk.top();
-				stk.pop();
-				stk.push(res(a, b, cur[0]));
-			}
+			
+			while(it != s.end() && *it <= nums[i]) 
+				it++;
+			if(it == s.end())	continue;
+
+			int target = *it;
+			s.erase(it);
+
+			nums[i] = target;
+
+			fill(nums, s, i+1);
+			break;
 		}
-		
-		return stk.top();
     }
 };
 
 int main()
 {	//Test the solution code here
-	vector<string> test = {"10","6","9","3","+","-11","*","/","*","17","+","5","+"};
-	cout << Solution().evalRPN(test) << ln;
+
+	vector<int> test = {1, 5, 1};
+	Solution().nextPermutation(test);
+
+	for(auto i: test)
+		cout << i << ' ';
+
 	return 0;
 }
 
