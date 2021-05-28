@@ -19,51 +19,38 @@ using namespace std;
 #define ll long long
 
 class Solution {
-	void fill(vector<int>& nums, multiset<int>& s, int i) {
-		int x = i;
-		for(int y : s) 
-				nums[x++] = y; 
-	}
-
 public:
-    void nextPermutation(vector<int>& nums) 
+    int maximumUniqueSubarray(vector<int>& nums) 
 	{
-		multiset<int> s;
-		for(int i=nums.size()-1; i>-1; i--)
-		{
-			s.insert(nums[i]);
-			multiset<int>::iterator it = ++s.find(nums[i]);
+		int ans = INT_MIN;
 
-			if(it == s.end()) 
-			{
-				if(i == 0) 
-					sort(nums.begin(), nums.end());
-				continue;
-			}
-			
-			while(it != s.end() && *it <= nums[i]) 
-				it++;
-			if(it == s.end())	continue;
+		vector<int> sum(nums.size());
+		sum[0] = nums[0];
+		for(int i=1; i<nums.size(); i++)
+			sum[i] = nums[i] + sum[i-1];
+		
+		unordered_map<int, int> m;
+		int l = -1; //exclusive
 
-			int target = *it;
-			s.erase(it);
+		for(int r=0; r<nums.size(); r++) {
 
-			nums[i] = target;
+			if(m.find(nums[r]) != m.end()) 
+				l = max(m[nums[r]], l);	
 
-			fill(nums, s, i+1);
-			break;
+			m[nums[r]] = r;
+			ans = max(ans, sum[r] - ((l > -1) ? sum[l] : 0));
 		}
+
+		return ans;
     }
 };
+
 
 int main()
 {	//Test the solution code here
 
 	vector<int> test = {1, 5, 1};
-	Solution().nextPermutation(test);
-
-	for(auto i: test)
-		cout << i << ' ';
+	cout << Solution().maximumUniqueSubarray(test);
 
 	return 0;
 }
