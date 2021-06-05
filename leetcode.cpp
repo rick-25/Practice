@@ -18,40 +18,83 @@ using namespace std;
 #define ln '\n'
 #define ll long long
 
+
 class Solution {
+    int toi(char c) 
+    {
+        return ((int)c - 48);
+    }
+    char toc(int n)
+    {
+        return char(n+48);
+    }
+    int right(int n)
+    {
+        if(n == 9)  return 0;
+        return ++n;
+    }
+    int left(int n)
+    {
+        if(n == 0)  return 9;
+        return --n;
+    }
 public:
-    int maximumUniqueSubarray(vector<int>& nums) 
-	{
-		int ans = INT_MIN;
+    int openLock(vector<string>& deadends, string target) 
+    {
+        
+        unordered_set<string> ends;
+        for(auto i : deadends)  ends.insert(i);
 
-		vector<int> sum(nums.size());
-		sum[0] = nums[0];
-		for(int i=1; i<nums.size(); i++)
-			sum[i] = nums[i] + sum[i-1];
-		
-		unordered_map<int, int> m;
-		int l = -1; //exclusive
+        queue<string> tree; 
+        tree.push("0000");
+        unordered_set<string> seen;
+        seen.insert("0000");
 
-		for(int r=0; r<nums.size(); r++) {
+        int level = 0;
+        while(!tree.empty())
+        {
+            level++; 
+            int len = tree.size();
 
-			if(m.find(nums[r]) != m.end()) 
-				l = max(m[nums[r]], l);	
+            for(int j=0; j<len; j++)
+            {
+                string root = tree.front();
+                tree.pop();
+            
+                if(ends.find(root) != ends.end())   continue;
+                if(root == target)  return --level;
 
-			m[nums[r]] = r;
-			ans = max(ans, sum[r] - ((l > -1) ? sum[l] : 0));
-		}
+                for(int i=0; i<4; i++)
+                {
+                    string temp = root;
 
-		return ans;
+                    temp[i] = toc(right(toi(root[i])));
+                    if(seen.find(temp) == seen.end())
+                    {
+                        tree.push(temp);
+                        seen.insert(temp);
+                    }
+
+                    temp[i] = toc(left(toi(root[i])));
+                    if(seen.find(temp) == seen.end())
+                    {
+                        tree.push(temp);
+                        seen.insert(temp);
+                    }
+                }
+            }
+        }
+        return -1;
     }
 };
 
-
 int main()
 {	//Test the solution code here
+    Solution obj;
+    vector<string> deadends = {"2000"};
+    string target = "1000";
 
-	vector<int> test = {1, 5, 1};
-	cout << Solution().maximumUniqueSubarray(test);
-
+    cout << obj.openLock(deadends, target) << ln;
 	return 0;
 }
 

@@ -2,6 +2,7 @@
 #include <vector>
 #include <stack>
 #include <queue>
+#include <iterator>
 #include <algorithm>
 #include <climits>
 #include <cmath>
@@ -15,19 +16,10 @@ using namespace std;
 #define ll long long
 #define MOD 1000000007
 
-	
+
 void solve()
 {
-    //TODO : code here for each test case
-	ll n;	cin >> n;
-	vector<vector<int>> grid(n);
-	for(int i=0; i<n; i++) {
-		for(int j=0; j<n; j++) {
-			int temp;	cin >> temp;
-			grid[i].push_back(temp);
-		}
-	}
-
+	cout << (int)'0' << (int)'1' << (int)'9';
 }
 
 int main()
@@ -40,8 +32,4 @@ int main()
 
 	return 0;
 }
-
-
-
-
 
