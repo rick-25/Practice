@@ -31,3 +31,19 @@ struct TreeNode
 	TreeNode(int x) : val(x), left(nullptr), right(nullptr)
 	{}
 };
+
+void preorder(TreeNode * root)
+{
+	if(root == nullptr)	return;
+	cout << root->val << ' ';
+	preorder(root->left);
+	preorder(root->right);
+}
+
+void inorder(TreeNode* root)
+{
+	if(root == nullptr)	return;
+	inorder(root->left);
+	cout << root->val << ' ';
+	inorder(root->right);
+}
