@@ -20,29 +20,42 @@ using namespace std;
 #define MOD 1000000007
 
 class Solution {
-public:
-    int maxResult(vector<int>& nums, int k) 
+private:
+	TreeNode* makeSubtree(vector<int>& preorder, vector<int>& inorder, int ins, int ine, int pres, int pree) 
 	{
-		multiset<int, greater<int> > heap;	
-		heap.insert(nums[nums.size()-1]);
-		
-		for(int i=nums.size()-2; i>-1; i--)
-		{
-			nums[i] += (*heap.begin()); 
-			if(i+k < nums.size())
-				heap.erase(heap.find(nums[i+k]));
-			heap.insert(nums[i]);	
-		}
+		if(ins > ine || pres > pree)	return nullptr;
 
-		return nums[0];
+		TreeNode * root = new TreeNode(preorder[pres]);
+		
+		//Make left and right subtree
+		int rootIndexIn;
+		for(rootIndexIn=ins; rootIndexIn<=ine && inorder[rootIndexIn] != root->val; rootIndexIn++);
+
+
+		root->left = makeSubtree(preorder, inorder, ins, rootIndexIn-1, pres+1, pres+(rootIndexIn-ins));
+		root->right = makeSubtree(preorder, inorder, rootIndexIn+1, ine, (pres+(rootIndexIn-ins))+1, pree);
+
+		return root;
+	}
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) 
+	{
+		TreeNode * root = makeSubtree(preorder, inorder, 0, preorder.size()-1, 0, preorder.size() ); 
+		return root;
     }
 };
 
 int main()
 {	//Test the solution code here
-	vector<int> test = {10,-5,-2,4,0,3};
-	int k = 3;
-	cout << Solution().maxResult(test, k);
+	vector<int> pre = {3, 9, 20, 15, 7};
+	vector<int> in = {9, 3, 15, 20, 7};
+
+	TreeNode* root = Solution().buildTree(pre, in);
+
+	preorder(root);
+	cout << ln;
+	inorder(root);
+
 	return 0;
 }
 
