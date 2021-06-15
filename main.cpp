@@ -16,67 +16,45 @@ using namespace std;
 #define ll long long
 #define MOD 1000000007
 
+vector<int> list[int(1e5)];
 
+void dfs(int root, unordered_set<int>& visited)
+{
+	if(visited.find(root) != visited.end())	return;
+	visited.insert(root);
+
+	for(int i=0; i<list[root].size(); i++)
+		dfs(list[root][i], visited);
+}
 void solve()
 {
-	ll n, m;
-	cin >> n >> m;
+	int e;
+	cin >> e;
 
-	vector<ll> cities(n);
-	vector<ll> travellers(m);
+	int maxNode = 1;
 
-	for(int i=0; i<n; i++)
-		cin >> cities[i];
-	for(int i=0; i<m; i++)
-		cin >> travellers[i];
-
-	vector<ll> left(n);
-	vector<ll> right(n);
-
-	ll last = n;
-	for(int i=n-1; i>-1; i--)
+	for(int i=0; i<e; i++)
 	{
-		if(cities[i] == 2)
-			last = i;
-		
-		left[i] = -1;
-		if(last < n)	left[i] = last-i;
+		int x, y;	cin >> x >> y;
+		list[x].push_back(y);
+		list[y].push_back(x);
+
+		maxNode = max(maxNode, max(x, y));
+	}
+	
+	unordered_set<int> seen;
+	for(int i=1; i<=maxNode; i++)
+	{
+		if(list[i].size() > 0)
+			dfs(i, seen);
 	}
 
-	last = -1;
-	for(int i=0; i<n; i++)
-	{
-		if(cities[i] == 1)
-			last = i;
-
-		right[i] = -1;
-		if(last > -1)	right[i] = i-last;
-	}
-
-	for(int i=0; i<m; i++)
-	{
-		int index = travellers[i]-1; 
-
-		int ans = -1;
-		
-		if(left[index] != -1)
-			ans = left[index];
-
-		if(right[index] != -1) {
-			if(left[index] != -1)
-				ans = min((ll)left[index], (ll)right[index]);
-			else 
-				ans = right[index];
-		}
-
-		cout << ans << ' ';
-	}
-	cout << ln;
+	cout << seen.size() << '\n';
 }
 
 int main()
 {
-	freopen("inputf.in", "r", stdin);
+	//freopen("inputf.in", "r", stdin);
 	ll t = 1;
 	
 	cin >> t;
