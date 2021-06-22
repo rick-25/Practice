@@ -21,75 +21,52 @@ using namespace std;
 #define MOD 1000000007
 
 class Solution {
-	int getCubeNo(int r, int c)
+	bool match(vector<vector<int>>& indexmap, string s)
 	{
-		int rdif = r / 3, cdif = c / 3;
-		return (rdif*3) + cdif;
-	}
-	bool backtrack(vector<vector<char>>& board, int r, int c, unordered_set<char> rows[], unordered_set<char> cols[], unordered_set<char> cubes[])
-	{
-		if(r == 9)	return true; //Base case
+		int pointers[26];
+		for(int i=0; i<26; i++)	pointers[i] = 0;
 
-		int tr, tc;
-		if(c == 8) {tr = r+1; tc = 0;}
-		else {tr = r; tc = c+1;}
-
-
-		if(board[r][c] != '.')
-			return backtrack(board, tr, tc, rows, cols, cubes);
-		
-
-		
-		int cubeNo = getCubeNo(r, c);
-		for(char i='1'; i<='9'; i++)
+		int index = -1;
+		for(int i=0; i<s.size(); i++)
 		{
-			if(rows[r].find(i) == rows[r].end() && cols[c].find(i) == cols[c].end() && cubes[cubeNo].find(i) == cubes[cubeNo].end())
-			{
-				rows[r].insert(i);
-				cols[c].insert(i);
-				cubes[cubeNo].insert(i);
-				board[r][c] = i;
+			char cur = s[i];
+			int ind = cur - 'a';
 
 
-				if(backtrack(board, tr, tc, rows, cols, cubes))
-					return true;
+			for( ; pointers[ind] < indexmap[ind].size() && indexmap[ind][pointers[ind]] <= index; pointers[ind]++);
+			if(pointers[ind] >= indexmap[ind].size())
+				return false;
 
-				cubes[cubeNo].erase(i);
-				cols[c].erase(i);
-				rows[r].erase(i);
-			}
+
+			index = indexmap[ind][pointers[ind]];
+			pointers[ind]++;
 		}
 
-		board[r][c] = '.';
-
-		return false;
+		return true;
 	}
 public:
-    void solveSudoku(vector<vector<char>>& board) 
-	{
-		unordered_set<char> rows[9];
-		unordered_set<char> cols[9];
-		unordered_set<char> cubes[9];
+    int numMatchingSubseq(string s, vector<string>& words) {
 
-		for(int r=0; r<9; r++)
+        vector<vector<int>> indexmap(26);
+        for(int i=0; i<s.size(); i++)
+			indexmap[s[i]-'a'].push_back(i);
+
+		int ans = 0;
+		for(int i=0; i<words.size(); i++)
 		{
-			for(int c=0; c<9; c++)
-			{
-				if(board[r][c] == '.')	continue;
-
-				rows[r].insert(board[r][c]);
-				cols[c].insert(board[r][c]);
-				cubes[getCubeNo(r, c)].insert(board[r][c]);
-			}
+			if(words[i].size() <= s.size() && match(indexmap, words[i]))
+				ans++;
 		}
 
-		backtrack(board, 0, 0, rows, cols, cubes);
+		return ans;
     }
 };
 
 int main()
 {	//Test the solution code here
-	cout << sizeof(unordered_set<char>);
+	vector<string> test {"ahjpjau","ja","ahbwzgqnuk","tnmlanowax"};
+	string root = "dsahjpjauf";
+	cout << Solution().numMatchingSubseq(root, test) << ln;
 	return 0;
 }
 

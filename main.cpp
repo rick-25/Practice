@@ -16,40 +16,37 @@ using namespace std;
 #define ll long long
 #define MOD 1000000007
 
-vector<int> list[int(1e5)];
 
-void dfs(int root, unordered_set<int>& visited)
-{
-	if(visited.find(root) != visited.end())	return;
-	visited.insert(root);
-
-	for(int i=0; i<list[root].size(); i++)
-		dfs(list[root][i], visited);
-}
 void solve()
 {
-	int e;
-	cin >> e;
+	int n, q;
+	vector<int> arr(long(1e6));
+	vector<int> qu(long(1e6));
 
-	int maxNode = 1;
+	cin >> n >> q;
+	for(int i=0; i<n; i++)
+		cin >> arr[i];
 
-	for(int i=0; i<e; i++)
+	sort(arr.begin(), arr.end());
+
+	for(int i=0; i<q; i++)
+		cin >> qu[i];
+
+	for(int i=0; i<q; i++)
 	{
-		int x, y;	cin >> x >> y;
-		list[x].push_back(y);
-		list[y].push_back(x);
+		auto it = lower_bound(arr.begin(), arr.end(), qu[i]);
+		if(it != arr.end() && (*it) == qu[i])
+		{
+			cout << "0" << ln;
+			continue;
+		}
 
-		maxNode = max(maxNode, max(x, y));
+		int biger = distance(it, arr.end());
+		if(biger % 2 != 0)
+			cout << "NEGATIVE" << ln;
+		else
+			cout << "POSITIVE" << ln;
 	}
-	
-	unordered_set<int> seen;
-	for(int i=1; i<=maxNode; i++)
-	{
-		if(list[i].size() > 0)
-			dfs(i, seen);
-	}
-
-	cout << seen.size() << '\n';
 }
 
 int main()
@@ -57,10 +54,9 @@ int main()
 	//freopen("inputf.in", "r", stdin);
 	ll t = 1;
 	
-	cin >> t;
+	//cin >> t;
 	while (t--)
-        solve();
-
+		solve();
 	return 0;
 }
 
