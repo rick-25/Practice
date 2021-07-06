@@ -19,33 +19,10 @@ using namespace std;
 
 void solve()
 {
-	int n, q;
-	vector<int> arr(long(1e6));
-	vector<int> qu(long(1e6));
-
-	cin >> n >> q;
-	for(int i=0; i<n; i++)
-		cin >> arr[i];
-
-	sort(arr.begin(), arr.end());
-
-	for(int i=0; i<q; i++)
-		cin >> qu[i];
-
-	for(int i=0; i<q; i++)
-	{
-		auto it = lower_bound(arr.begin(), arr.end(), qu[i]);
-		if(it != arr.end() && (*it) == qu[i])
-		{
-			cout << "0" << ln;
-			continue;
+	for(int i=0; i<3; i++) {
+		for(int j=0; j<8; j++) {
+			cout << pow(2, i) << '^' << j << '=' << ((int)pow(2, i) ^ j) << ln; 
 		}
-
-		int biger = distance(it, arr.end());
-		if(biger % 2 != 0)
-			cout << "NEGATIVE" << ln;
-		else
-			cout << "POSITIVE" << ln;
 	}
 }
 
