@@ -19,10 +19,34 @@ using namespace std;
 
 void solve()
 {
-	for(int i=0; i<3; i++) {
-		for(int j=0; j<8; j++) {
-			cout << pow(2, i) << '^' << j << '=' << ((int)pow(2, i) ^ j) << ln; 
-		}
+	ll n, z;
+	cin >> n >> z;
+
+	vector<ll> arr(n);
+	for(int i=0; i<n; i++) 
+		cin >> arr[i];
+
+	make_heap(arr.begin(), arr.end());
+	
+	int ans = 0;
+	while(arr.front() > 0 && z > 0) {
+
+		z -= arr.front();
+
+		ll temp = arr.front();
+		pop_heap(arr.begin(), arr.end());
+		arr.pop_back();
+
+		arr.push_back(temp/2);
+		push_heap(arr.begin(), arr.end());
+
+		ans++;
+	}
+
+	if(z > 0) {
+		cout << "Evacuate" << ln;
+	} else {
+		cout << ans << ln;
 	}
 }
 
@@ -31,7 +55,7 @@ int main()
 	//freopen("inputf.in", "r", stdin);
 	ll t = 1;
 	
-	//cin >> t;
+	cin >> t;
 	while (t--)
 		solve();
 	return 0;

@@ -21,67 +21,40 @@ using namespace std;
 #define MOD 1000000007
 
 class Solution {
-	char vowels[5] = {'a', 'e', 'i', 'o', 'u'};
-	
-	int backTrack(string str, int n) {
-
-		if(str.size() == n) {
-			return 1;
-		}
-
-		int ans = 0;
-
-		char last = (str.size()) ? str[str.size()-1] : '\0';
-
-		for(int i=0; i<5; i++) {
-			char cur = vowels[i];
-			switch(cur) {
-				case 'a' : if(last == 'e' || last == '\0') {
-							   str.push_back(cur);
-							   ans += backTrack(str, n);
-							   str.pop_back();
-						   }
-						   continue;
-				case 'e' : if(last == 'a' || last == 'i' || last == '\0') {
-							   str.push_back(cur);
-							   ans += backTrack(str, n);
-							   str.pop_back();
-						   }
-						   continue;
-				case 'i' : if(last != 'i') {
-							   str.push_back(cur);
-							   ans += backTrack(str, n);
-							   str.pop_back();
-						   }
-						   continue;
-				case 'o' : if(last == 'i' || last == 'u' || last == '\0') {
-							   str.push_back(cur);
-							   ans += backTrack(str, n);
-							   str.pop_back();
-						   }
-						   continue;
-
-				case 'u' : if(last == '\0' || last == 'a') {
-							   str.push_back(cur);
-							   ans += backTrack(str, n);
-							   str.pop_back();
-						   }
-						   continue;
-			}
-		}
-		return ans;
-	} 
 public:
-    int countVowelPermutation(int n) {
-		string temp;
-		return backTrack(temp, n);
+    string customSortString(string order, string str) {
+
+        unordered_map<char, int> fMap;
+        for(int i=0; i<str.size(); i++) {
+            fMap[str[i]]++;
+        }
+
+        std::string ans = "";
+        for(int i=0; i<order.size(); i++) {
+            if(fMap.find(order[i]) == fMap.end())
+                continue;
+            for(int j=0; j<fMap[order[i]]; j++) {
+                ans.push_back(order[i]);
+            }
+            fMap.erase(order[i]);
+        }
+
+        for(auto p : fMap) {
+            for(int j=0; j<p.second; j++) {
+                ans.push_back(p.first);
+            }
+        }
+
+        return ans;
     }
 };
 
 int main()
 {	//Test the solution code here
-	int test = 5;
-	cout << Solution().countVowelPermutation(test);	
+    Solution object;
+    string order = "cba";
+    string str = "abcd";
+    cout << object.customSortString(order, str);
 	return 0;
 }
 
