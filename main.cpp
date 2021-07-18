@@ -19,35 +19,6 @@ using namespace std;
 
 void solve()
 {
-	ll n, z;
-	cin >> n >> z;
-
-	vector<ll> arr(n);
-	for(int i=0; i<n; i++) 
-		cin >> arr[i];
-
-	make_heap(arr.begin(), arr.end());
-	
-	int ans = 0;
-	while(arr.front() > 0 && z > 0) {
-
-		z -= arr.front();
-
-		ll temp = arr.front();
-		pop_heap(arr.begin(), arr.end());
-		arr.pop_back();
-
-		arr.push_back(temp/2);
-		push_heap(arr.begin(), arr.end());
-
-		ans++;
-	}
-
-	if(z > 0) {
-		cout << "Evacuate" << ln;
-	} else {
-		cout << ans << ln;
-	}
 }
 
 int main()

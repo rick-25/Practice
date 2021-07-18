@@ -10,6 +10,19 @@ struct ListNode
 	ListNode(int x) : val(x), next(nullptr)
 	{}
 	void print();
+	int size();
+	static ListNode* toList(vector<int>& arr) 
+	{
+		if(!arr.size())
+			return nullptr;
+		ListNode *head = new ListNode(arr[0]);
+		ListNode *r = head;
+		for(int i=1; i<arr.size(); i++) {
+			r->next = new ListNode(arr[i]);
+			r = r->next;
+		}
+		return head;
+	}
 };
 
 void ListNode::print() 
@@ -20,6 +33,16 @@ void ListNode::print()
 		cout << head->val << ' ';
 		head = head->next;
 	}	cout << endl;
+}
+int ListNode::size() 
+{
+	int i = 0;
+	ListNode * temp = this;
+	while(temp != nullptr) {
+		i++;
+		temp = temp->next;
+	}
+	return i;
 }
 
 struct TreeNode 
