@@ -20,101 +20,96 @@ using namespace std;
 #define ll long long
 #define MOD 1000000007
 
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
+
+
 class Solution {
-int size(ListNode* head) 
-{
-	int i = 0;
-	ListNode * temp = head;
-	while(temp != nullptr) {
-		i++;
-		temp = temp->next;
-	}
-	return i;
-}
-
-public:
-    //Passed head is going to be the tail of new list.
-    //This functino will return the new head of reversed list.
-    pair<ListNode*, ListNode*> reverseList(ListNode* head, int len) 
+public: 
+    int onceCount(vector<int>& arr, int l, int r) 
     {
-        //ans[0] == new head, ans[1] == head of next list
-        pair<ListNode*, ListNode*> ans = {head, head->next};
-
-        if(!len) {
-            return ans;
+        int ans = 0;
+        for(int i=l; i<r; i++) {
+            if(arr[i])
+                ans++;
         }
-
-        ListNode *prev = nullptr, *cur = head, *cum = nullptr;
-
-        while(len) {
-            //Pre prosessing
-            cum = cur->next;
-
-            //main logic
-            cur->next = prev;
-            prev = cur;
-
-            //updation
-            cur = cum;
-            len--;
-        }
-
-        ans.first = prev;
-        ans.second = cur;
         return ans;
     }
-public:
-    ListNode* reverseKGroup(ListNode* head, int k) 
+    string getDecimalTarget(vector<int>& arr, int once) 
     {
-
-        if(!k)
-            return head;
-
-        int length = size(head);
-
-        ListNode *dummy = new ListNode(0);
-        dummy->next = head;
-
-        ListNode *prev = dummy;
-        ListNode *cur = head;
-
-        while(length >= k) {
-            pair<ListNode*, ListNode*> meta = reverseList(cur, k); 
-
-            if(prev != nullptr) {
-                prev->next = meta.first;
-            }
-
-            prev = cur;
-            prev->next = meta.second;
-            
-            cur = meta.second;
-            length -= k;
+        if(once == 0) {
+            return "0";
         }
 
-        return dummy->next; 
+        int cnt = 0;
+        string ans = "";
+        
+        int l = arr.size();
+        for(int i=arr.size()-1; i>-1 && once; i--) {
+            if(arr[i])
+                once--;
+            l = i;
+        }
+        
+        for(int i=l; i<arr.size(); i++) 
+            ans.push_back(48+arr[i]);
+        
+
+        return ans;
+    }
+
+    int checkStr(vector<int>& arr, string decimalTar, int i) 
+    {
+        if(decimalTar[0] == '0')  {
+            if(arr[i])
+                return -1;
+            else 
+                return i+1;
+        }
+
+        while(i < arr.size() && arr[i] == 0) {
+            i++;
+        }
+
+        for(int p=0; p<decimalTar.size(); i++, p++) {
+            if(arr[i] != (decimalTar[p]-48)) 
+                return -1;
+        }
+
+        return i;
+    }
+public:
+    vector<int> threeEqualParts(vector<int>& arr) 
+    {
+        vector<int> ans = {-1, -1};
+        int oneCnt = onceCount(arr, 0, arr.size());
+        if(oneCnt % 3 != 0)
+            return ans;
+
+        string decimalTarget = getDecimalTarget(arr, oneCnt/3);
+
+        int firstIndex = checkStr(arr, decimalTarget, 0); 
+        if(firstIndex < 0)
+            return ans;
+        ans[0] = firstIndex-1;
+
+        int secondIndex = checkStr(arr, decimalTarget, firstIndex);
+        if(secondIndex < 0)
+            return vector<int>({-1, -1});
+        ans[1] = secondIndex;
+
+        if(ans[1] > arr.size()-decimalTarget.size() || ans[0] >= ans[1])
+            return vector<int>({-1, -1});
+
+        return ans;
     }
 };
 
+
 int main()
 {	//Test the solution code here
-    Solution object;
-    vector<int> test = {1, 2, 3, 4, 5, 6};
-    ListNode *head = ListNode::toList(test);
-
-    head = object.reverseKGroup(head, 3);
-    head->print();
-
-	return 0;
+    Solution obj;
+    vector<int> test = {0, 0, 0};
+    vector<int> ans = obj.threeEqualParts(test);
+    cout << ans[0] << ", " << ans[1] << ln;
+    return 0;
 }
 
