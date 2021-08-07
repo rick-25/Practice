@@ -16,10 +16,20 @@ using namespace std;
 #define ll long long
 #define MOD 1000000007
 
+ll rem;
+
 
 void solve()
 {
-    cout << "Hello world" << endl;
+	ll n, d;
+	cin >> n >> d;
+	vector<ll> price(n);
+	vector<ll> sweetness(n);
+
+	for(int i=0; i<n; i++) 
+		cin >> price[i];
+	for(int i=0; i<n; i++) 
+		cin >> sweetness[i];
 }
 
 int main()
