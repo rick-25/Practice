@@ -20,71 +20,39 @@ using namespace std;
 #define ll long long
 #define MOD 1000000007
 
-
 class Solution {
-
-    vector<int> dp;
-
-    //Matrix to store is palindrome info i.e m[i][j](substr[i, j]) is palindrome or not 
-    vector<vector<int>> matrix;
-
-    //Algorithm to find all substring isPalindrome information in O(N^2) time complexity
-    void findPalindrome(string str)
-    {
-        matrix = vector<vector<int>>(str.size(), vector<int>(str.size()));
-
-        for(int i=0; i<str.size(); i++) 
-        {
-            int l,r;
-            l = r = i;
-            while(l >= 0 && r < str.size()) {
-                if(str[l] != str[r])
-                    break;
-                matrix[l--][r++]  = 1;
-            }
-
-            l = i;
-            r = i+1;
-            while(l >= 0 && r < str.size()) {
-                if(str[l] != str[r])
-                    break;
-                matrix[l--][r++]  = 1;
-            }
-        }
-    }
-
-
-    int help(string str, int start) 
-    {
-
-        if(start >= str.size()) 
-            return -1;
-        
-        if(dp[start] > -1)  return dp[start];
-
-        int ans = INT_MAX;
-        for(int i=start; i<str.size(); i++) {
-            if(matrix[start][i]) {
-                ans = min(ans, help(str, i+1));
-            }
-        }
-
-        dp[start] = ++ans;
-        return dp[start];
-    }
-
 public:
-    int minCut(string s) {
-        dp = vector<int>(s.size(), -1);
-        findPalindrome(s);
-        return help(s, 0);
+    bool canReorderDoubled(vector<int>& arr) {
+        unordered_map<int, int> mp;
+        for(auto i : arr)   mp[i]++;
+
+        sort(arr.begin(), arr.end());
+
+        for(int i : arr) {
+            if(mp[i] <= 0)  continue;
+
+            int target = i * 2;
+            if(mp.find(target) != mp.end() && mp[target] > 0) {
+                mp[i]--;
+                mp[target]--;
+                continue;
+            }
+        }
+
+        for(auto p : mp) {
+            if(p.second > 0)
+                return false;
+        }
+
+        return true;
     }
 };
 
 int main()
 {	//Test the solution code here
     Solution obj;
-    cout << obj.minCut("abbab") << ln;
+    vector<int> test = {1,2,1,-8,8,-4,4,-4,2,-2};
+    cout << obj.canReorderDoubled(test);
     return 0;
 }
 
