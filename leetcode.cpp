@@ -20,39 +20,42 @@ using namespace std;
 #define ll long long
 #define MOD 1000000007
 
-class Solution {
-public:
-    bool canReorderDoubled(vector<int>& arr) {
-        unordered_map<int, int> mp;
-        for(auto i : arr)   mp[i]++;
-
-        sort(arr.begin(), arr.end());
-
-        for(int i : arr) {
-            if(mp[i] <= 0)  continue;
-
-            int target = i * 2;
-            if(mp.find(target) != mp.end() && mp[target] > 0) {
-                mp[i]--;
-                mp[target]--;
-                continue;
-            }
-        }
-
-        for(auto p : mp) {
-            if(p.second > 0)
-                return false;
-        }
-
-        return true;
+struct Node {
+    int data;
+    Node * next;
+    Node(int x) {
+        data = x;
+        next = nullptr;
     }
 };
 
-int main()
+class Solution
+{
+    public:
+    //Function to find the next greater element for each element of the array.
+    vector<long long> nextLargerElement(vector<long long> arr, int n){
+        
+        stack<long long> largerElements;
+        vector<long long> ans(n, -1);
+
+        for(int i=n-1; i>-1; i--) {
+            while(largerElements.size() && largerElements.top() <= arr[i]) {
+                largerElements.pop();
+            }
+           
+            if(largerElements.size()) 
+                ans[i] = largerElements.top();
+            
+            largerElements.push(arr[i]);
+        }
+        return ans;
+    }
+};
+
+int main(int argLen, const char** args)
 {	//Test the solution code here
-    Solution obj;
-    vector<int> test = {1,2,1,-8,8,-4,4,-4,2,-2};
-    cout << obj.canReorderDoubled(test);
+
+    Solution * ans = new Solution();
     return 0;
 }
 
