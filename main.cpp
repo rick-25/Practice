@@ -18,7 +18,17 @@ using namespace std;
 
 void solve() 
 {
-    cout << "hello" << ln;
+    string s;
+    cin >> s;
+    ll ones = 0;
+    for(auto bit : s) {
+        ones += (bit == '1');
+    }
+
+    if(ones == 0 || (ones == 1 && s[s.size()-1] == '1'))
+        cout << "NO" << ln;
+    else
+        cout << "YES" << ln;
 }
 
 int main()

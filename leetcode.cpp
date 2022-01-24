@@ -20,42 +20,36 @@ using namespace std;
 #define ll long long
 #define MOD 1000000007
 
-struct Node {
-    int data;
-    Node * next;
-    Node(int x) {
-        data = x;
-        next = nullptr;
+
+class Solution {
+    static bool comp(vector<int>& a, vector<int>& b) {
+        if(a[0] != b[0])
+            return a[0] < b[0];
+        return a[1] < b[1];
     }
-};
-
-class Solution
-{
-    public:
-    //Function to find the next greater element for each element of the array.
-    vector<long long> nextLargerElement(vector<long long> arr, int n){
-        
-        stack<long long> largerElements;
-        vector<long long> ans(n, -1);
-
-        for(int i=n-1; i>-1; i--) {
-            while(largerElements.size() && largerElements.top() <= arr[i]) {
-                largerElements.pop();
-            }
-           
-            if(largerElements.size()) 
-                ans[i] = largerElements.top();
-            
-            largerElements.push(arr[i]);
+public:
+    int findMinArrowShots(vector<vector<int>>& points) {
+        sort(points.begin(), points.end(), comp);
+        long long int prevArrow = points[0][0]-1, ans = 0;
+        for(int i=0; i<points.size(); i++) {
+            if(points[i][0] > prevArrow) {
+                prevArrow = points[i][1];
+                ans++;
+            } 
         }
         return ans;
     }
 };
 
+
 int main(int argLen, const char** args)
 {	//Test the solution code here
-
+    cout << ln;
     Solution * ans = new Solution();
+    vector<vector<int>> test = {
+        {-2147483648,2147483647}
+    };
+    cout << ans->findMinArrowShots(test) << ln;
     return 0;
 }
 
