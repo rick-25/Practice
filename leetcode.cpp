@@ -22,34 +22,32 @@ using namespace std;
 
 
 class Solution {
-    static bool comp(vector<int>& a, vector<int>& b) {
-        if(a[0] != b[0])
-            return a[0] < b[0];
-        return a[1] < b[1];
+  void help(unordered_map<int, int>& table, vector<int>& arr1, vector<int>& arr2) {
+    for(auto i : arr1) {
+      for(auto j : arr2) {
+        table[i + j]++;
+      }
     }
+  }
 public:
-    int findMinArrowShots(vector<vector<int>>& points) {
-        sort(points.begin(), points.end(), comp);
-        long long int prevArrow = points[0][0]-1, ans = 0;
-        for(int i=0; i<points.size(); i++) {
-            if(points[i][0] > prevArrow) {
-                prevArrow = points[i][1];
-                ans++;
-            } 
-        }
-        return ans;
+    int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
+      int ans = 0;
+      unordered_map<int, int> table1;
+      unordered_map<int, int> table2;
+      help(table1, nums1, nums2);
+      help(table2, nums3, nums4);
+      for(auto p : table1) {
+        int target = p.first * -1;
+        ans += p.second * table2[target];
+      }
+      return ans;        
     }
 };
 
 
 int main(int argLen, const char** args)
-{	//Test the solution code here
-    cout << ln;
-    Solution * ans = new Solution();
-    vector<vector<int>> test = {
-        {-2147483648,2147483647}
-    };
-    cout << ans->findMinArrowShots(test) << ln;
+{	  //Test the Solution code here
+  cout << "Hello" << ln;
     return 0;
 }
 
