@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <stack>
 
 #include "ds.h"
 
@@ -11,36 +10,37 @@ using namespace std;
 
 const int MAX_N = 1e5 + 5;
 
-/int dp[MAX_N];
+//int dp[MAX_N];
 //int arr[MAX_N];
 
-void stackInOrder(TreeNode* root) {
-    stack<TreeNode*> in;
-    stack<TreeNode*> out;
-    in.push(root);
-    while(in.size() || out.size()) {
-        TreeNode* cur = nullptr;
-        if(in.size()) {
-            cur = in.top();
-            in.pop();
-            if(cur->left) in.push(cur->left); 
-            out.push(cur); 
-        } else {
-            cur = out.top();
-            out.pop();
-            cout << cur->val;
-            if(cur->right) in.push(cur->right);
+
+class Solution {
+public:
+    bool find132pattern(const vector<int>& nums) {
+
+        if(nums.size() < 3) return false; 
+
+        int third = INT_MIN;
+        stack<int> stk; 
+
+        for(int i=nums.size()-1; i >= 1; i--) {
+            int cur = nums[i];
+            while(stk.size() && stk.top() <= cur) {
+                third = stk.top();
+                stk.pop();
+            }
+             
         }
+        return false;
     }
-}
+};
+
 
 int main(const int argLen, const char** args)
 {	
     cout << ln;
-    TreeNode * root = new TreeNode(1);
-    root->left = new TreeNode(2);
-    root->right = new TreeNode(3);
-    stackInOrder(root);
+    vector<int> arr = {1, 3, 2, 3};
+    cout << (new Solution())->find132pattern(arr);
     return 0;
 }
 

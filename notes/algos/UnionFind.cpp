@@ -16,6 +16,7 @@ const int N = 1e5+10;
 class DSU {
 private:
     int parents[N]; //Points to element's parent node
+public:
     int sizes[N];
 public:
     void make(int v) {
@@ -48,7 +49,7 @@ int main() {
     uf->make(2);
     uf->makeUnion(1, 2);
 
-    cout << uf->find(1) << endl;
+    cout << uf->sizes[10];
     
     return 0;
 }

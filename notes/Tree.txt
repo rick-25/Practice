@@ -1,0 +1,17 @@
+
+1. DFS (Stack)
+    Preorder: Root, Left, Right
+    Inorder : Left, Root, Right
+    Postorder: Left, Right, Root
+    One can also visite right first then left as per need. 
+2. BFS  (Queue)
+
+
+DFS: prev node maintainer
+
+STACK_IMPLEMENTATION: DFS(In, post, pre) using stack datastrucutre
+
+BST : iorder is sorted(comes very handy)
+
+Tree Building: Build tree from two given traversals e.g in-order and pre-order
+

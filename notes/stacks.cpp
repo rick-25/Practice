@@ -50,3 +50,7 @@ This prety comes handy in reversing data of other data-strcutre like queue.
 
 4. Desiging problems 
 There are some beautiful Design problem based on stack like K-Stacks and Max-Freq stack.
+
+
+5. Continous removal of a section of a string/array
+e.g 'abc' sequence get removed, what will be left of string.
