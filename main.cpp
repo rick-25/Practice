@@ -1,7 +1,4 @@
-#include <algorithm>
 #include <bits/stdc++.h>
-#include <functional>
-#include <vector>
 
 using namespace std;
 
@@ -28,9 +25,9 @@ void solve() {
     
     ll ans = arr[0] + arr[0];  
     for(int i=1; i<n; i++) {
+        if(arr[i] == arr[0]) continue;
         ll temp = (arr[0] - arr[i]) % m;
-        temp = max(temp, abs(arr[i] - arr[0]) % m);
-
+        cout << (arr[i] - arr[0]) % m << ln;
         ans = max(ans, arr[i] + arr[0] + temp);
     }
 
