@@ -6,7 +6,7 @@ using namespace std;
 #define lsb(n) (n & (-n))
 
 class Fenwick {
-    vector<int>  tree;
+    vector<int> tree;
 public:
 
     Fenwick(vector<int>& arr) {

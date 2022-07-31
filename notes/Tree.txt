@@ -11,7 +11,7 @@ DFS: prev node maintainer
 
 STACK_IMPLEMENTATION: DFS(In, post, pre) using stack datastrucutre
 
-BST : iorder is sorted(comes very handy)
+BST : inorder is sorted(comes very handy)
 
 Tree Building: Build tree from two given traversals e.g in-order and pre-order
 

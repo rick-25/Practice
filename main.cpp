@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include "./notes/algos/SegmentTree.h"
 
 using namespace std;
 
@@ -18,20 +19,10 @@ const int MAX_N = 1e5 + 5;
 
 
 void solve() {
-    ll n, m; cin >> n >> m;
-    vector<ll> arr(n);
-    for(auto& i : arr) cin >> i;
-    sort(arr.begin(), arr.end(), greater<ll>());
-    
-    ll ans = arr[0] + arr[0];  
-    for(int i=1; i<n; i++) {
-        if(arr[i] == arr[0]) continue;
-        ll temp = (arr[0] - arr[i]) % m;
-        cout << (arr[i] - arr[0]) % m << ln;
-        ans = max(ans, arr[i] + arr[0] + temp);
-    }
-
-    cout << ans;
+    vector<int> arr = {1, 2, 3};
+    SegmentTree *st = new SegmentTree(arr);
+    st->update(1, 1);
+    cout << st->getSum(0, 1);
 }
 
 
